@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import demo.dto.UsuarioDTO;
 import demo.dto.UsuarioResponseDTO;
-import demo.model.Usuario;
 import demo.model.UsuarioService;
 import jakarta.validation.Valid;
 
@@ -44,18 +43,21 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<UsuarioResponseDTO> listar() throws Exception {
+        public ResponseEntity<List<UsuarioResponseDTO>> listar() throws Exception {
 
-        String ip = InetAddress.getLocalHost().getHostAddress();
+            String machineId = InetAddress.getLocalHost().getHostAddress();
 
-        return usuarioService.obtenerUsuarios()
+            List<UsuarioResponseDTO> usuarios = usuarioService.obtenerUsuarios()
                 .stream()
-                .map((Usuario r) -> new UsuarioResponseDTO(
-                        r.getId(),
-                        r.getNombre(),
-                        r.getEmail(),
-                        ip
+                .map(u -> new UsuarioResponseDTO(
+                    u.getId(),
+                    u.getNombre(),
+                    u.getEmail()
                 ))
                 .toList();
-    }
+
+                return ResponseEntity.ok()
+                        .header("X-Machine-Id", machineId)
+                        .body(usuarios);
+        }
 }
