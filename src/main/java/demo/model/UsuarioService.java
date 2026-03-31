@@ -2,7 +2,9 @@ package demo.model;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
 import demo.repositories.UsuarioRepository;
 
 @Service
@@ -15,7 +17,7 @@ public class UsuarioService {
     }
 
     public List<Usuario> obtenerUsuarios() {
-        return repository.findAll();
+        return repository.findAll(PageRequest.of(0, 1000)).getContent();
     }
 
     public Usuario crearUsuario(String nombre, String email) {
