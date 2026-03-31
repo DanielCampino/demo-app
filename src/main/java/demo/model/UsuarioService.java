@@ -17,7 +17,7 @@ public class UsuarioService {
     }
 
     public List<Usuario> obtenerUsuarios() {
-        return repository.findAll(PageRequest.of(0, 1000)).getContent();
+        return repository.findAll(PageRequest.of(0, 100)).getContent();
     }
 
     public Usuario crearUsuario(String nombre, String email) {
