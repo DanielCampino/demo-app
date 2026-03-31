@@ -2,15 +2,15 @@ package demo.controller;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import demo.dto.UsuarioDTO;
@@ -45,23 +45,18 @@ public class UsuarioController {
     }
 
     @GetMapping
-        public ResponseEntity<List<UsuarioResponseDTO>> listar(
-                @RequestParam(defaultValue = "0") int page,
-                @RequestParam(defaultValue = "50") int size
+        public ResponseEntity<Page<UsuarioResponseDTO>> listar(Pageable pageable
         ) throws Exception {
 
         String machineId = InetAddress.getLocalHost().getHostAddress();
 
-        List<UsuarioResponseDTO> usuarios = usuarioService.obtenerUsuarios(
-                PageRequest.of(page, size)
-            )
-            .stream()
-            .map(u -> new UsuarioResponseDTO(
-                u.getId(),
-                u.getNombre(),
-                u.getEmail()
-            ))
-            .toList();
+        Page<UsuarioResponseDTO> usuarios = 
+            usuarioService.obtenerUsuarios(pageable)
+                .map(u -> new UsuarioResponseDTO(
+                    u.getId(),
+                    u.getNombre(),
+                    u.getEmail()
+                ));
 
         return ResponseEntity.ok()
                 .header("X-Machine-Id", machineId)
