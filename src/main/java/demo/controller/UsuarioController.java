@@ -43,7 +43,9 @@ public class UsuarioController {
     }
 
     @GetMapping
+
         public ResponseEntity<List<UsuarioResponseDTO>> listar() throws Exception {
+                System.out.print("Request");
 
             String machineId = InetAddress.getLocalHost().getHostAddress();
 
