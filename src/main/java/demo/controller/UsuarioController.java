@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
 
+import demo.dto.PageResponseDTO;
 import demo.dto.UsuarioDTO;
 import demo.dto.UsuarioResponseDTO;
 import demo.model.UsuarioService;
@@ -45,7 +45,7 @@ public class UsuarioController {
     }
 
     @GetMapping
-        public ResponseEntity<Page<UsuarioResponseDTO>> listar(Pageable pageable
+        public ResponseEntity<PageResponseDTO> listar(Pageable pageable
         ) throws Exception {
             
         String machineId = InetAddress.getLocalHost().getHostAddress();
@@ -58,8 +58,8 @@ public class UsuarioController {
                     u.getEmail()
                 ));
 
-        return ResponseEntity.ok()
-                .header("X-Machine-Id", machineId)
-                .body(usuarios);
+        return ResponseEntity.ok(
+                new PageResponseDTO(machineId, usuarios)
+            );
         }
 }
