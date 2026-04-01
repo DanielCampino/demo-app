@@ -1,7 +1,8 @@
 package demo.model;
 
-import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import demo.repositories.UsuarioRepository;
@@ -15,9 +16,9 @@ public class UsuarioService {
         this.repository = repository;
     }
 
-    public Page<Usuario> obtenerUsuarios(Pageable pageable) {
+    public Slice<Usuario> obtenerUsuarios(Pageable pageable) {
         return repository.findAll(pageable);
-    }
+    } 
 
     public Usuario crearUsuario(String nombre, String email) {
         Usuario usuario = new Usuario(nombre, email);

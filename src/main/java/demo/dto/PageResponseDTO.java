@@ -1,18 +1,18 @@
 package demo.dto;
 
-import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 
 public class PageResponseDTO {
 
     private final String machineId;
-    private final Page<UsuarioResponseDTO> data;
+    private final Slice<UsuarioResponseDTO> data;
 
-    public PageResponseDTO (String machineId, Page<UsuarioResponseDTO> data){
+    public PageResponseDTO (String machineId, Slice<UsuarioResponseDTO> data){
         this.machineId = machineId;
         this.data = data;
     }
 
-    public Page<UsuarioResponseDTO> getData() {
+    public Slice<UsuarioResponseDTO> getData() {
         return data;
     }
 
