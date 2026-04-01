@@ -1,10 +1,12 @@
 package demo.model;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import demo.dto.UsuarioResponseDTO;
 import demo.repositories.UsuarioRepository;
 
 @Service
@@ -16,9 +18,16 @@ public class UsuarioService {
         this.repository = repository;
     }
 
-    public Slice<Usuario> obtenerUsuarios(Pageable pageable) {
-        return repository.findAll(pageable);
-    } 
+    public List<UsuarioResponseDTO> obtenerUsuarios(Pageable pageable) {
+        return repository.findBy(pageable)
+            .stream()
+            .map(u -> new UsuarioResponseDTO(
+                u.getId(),
+                u.getNombre(),
+                u.getEmail()
+            ))
+            .toList();
+        }
 
     public Usuario crearUsuario(String nombre, String email) {
         Usuario usuario = new Usuario(nombre, email);

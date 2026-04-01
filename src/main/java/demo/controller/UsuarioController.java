@@ -3,9 +3,7 @@ package demo.controller;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import demo.dto.PageResponseDTO;
 import demo.dto.UsuarioDTO;
-import demo.dto.UsuarioResponseDTO;
 import demo.model.UsuarioService;
 import jakarta.validation.Valid;
 
@@ -51,16 +48,8 @@ public class UsuarioController {
             
         String machineId = InetAddress.getLocalHost().getHostAddress();
 
-        Slice<UsuarioResponseDTO> usuarios = 
-            usuarioService.obtenerUsuarios(pageable)
-                .map(u -> new UsuarioResponseDTO(
-                    u.getId(),
-                    u.getNombre(),
-                    u.getEmail()
-                ));
-
         return ResponseEntity.ok(
-                new PageResponseDTO(machineId, usuarios)
-            );
+                new PageResponseDTO(machineId, usuarioService.obtenerUsuarios(pageable)
+            ));
         }
 }
