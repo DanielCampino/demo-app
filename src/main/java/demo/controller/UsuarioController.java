@@ -48,6 +48,8 @@ public class UsuarioController {
         public ResponseEntity<Page<UsuarioResponseDTO>> listar(Pageable pageable
         ) throws Exception {
 
+            System.out.print(pageable);
+
         String machineId = InetAddress.getLocalHost().getHostAddress();
 
         Page<UsuarioResponseDTO> usuarios = 
