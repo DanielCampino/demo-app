@@ -1,6 +1,5 @@
 package demo.model;
 
-
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
